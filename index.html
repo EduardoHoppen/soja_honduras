@@ -122,12 +122,12 @@
 
     .slide-inner {
       width: 100%;
-      max-width: var(--max);
+      max-width: 980px;
       margin: 0 auto;
       display: grid;
-      gap: 26px;
+      gap: 32px;
       align-items: start;
-      grid-template-columns: minmax(0, 1.06fr) minmax(320px, 0.94fr);
+      grid-template-columns: 1fr;
     }
 
     .slide.full .slide-inner,
@@ -594,11 +594,7 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 1200px) {
-      .slide-inner,
-      .soil-layout {
-        grid-template-columns: 1fr;
-      }
+    
 
       .nav-dots {
         display: none;
