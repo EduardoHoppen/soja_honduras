@@ -289,7 +289,12 @@
     .option-row { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 18px; }
     .tag-row { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 18px; }
     .legend { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 16px; }
-    .soil-badges { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-top: 18px; }
+    .soil-badges {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
     .map-legend { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 18px; }
 
     .metric,
@@ -530,13 +535,14 @@
 
     .soil-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.18fr) minmax(260px, 0.82fr);
-      gap: 16px;
+      grid-template-columns: 1fr;
+      gap: 18px;
       align-items: start;
     }
 
     .soil-text {
       min-width: 0;
+      width: 100%;
     }
 
     .summary-note,
@@ -623,6 +629,51 @@
       .slide {
         padding: 64px 14px 24px;
       }
+
+      .card {
+        padding: 18px;
+        border-radius: 18px;
+      }
+
+      .hero-panel {
+        padding: 18px;
+      }
+
+      .photoperiod-chart {
+        min-height: 220px;
+      }
+
+      .month-bar-wrap {
+        max-width: 30px;
+      }
+
+      .month-mm,
+      .month-label,
+      .month-row {
+        font-size: 0.66rem;
+      }
+
+      .headline {
+        font-size: 0.93rem;
+        padding: 12px 14px;
+      }
+
+      .soil-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .soil-text,
+      .soil-visual,
+      .soil-badges {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .soil-badges {
+        grid-template-columns: 1fr;
+      }
+    }
 
       .card {
         padding: 18px;
@@ -852,27 +903,27 @@
           <div class="soil-text">
             <h2>6. Solos</h2>
             <ul>
-              <li>Leitura funcional voltada a <strong>profundidade</strong>, <strong>estrutura</strong> e <strong>drenagem</strong>.</li>
+              <li><strong>Leitura funcional:</strong> profundidade, estrutura e drenagem.</li>
             </ul>
-
-            <div class="soil-badges">
-              <div class="badge-card">
-                <div class="badge-title"><span class="badge-icon"><i data-lucide="test-tube"></i></span> pH</div>
-                <p><strong>5,5–7,5</strong></p>
-              </div>
-              <div class="badge-card">
-                <div class="badge-title"><span class="badge-icon"><i data-lucide="grid-2x2"></i></span> Textura</div>
-                <p><strong>Franco a franco-argiloso</strong></p>
-              </div>
-              <div class="badge-card">
-                <div class="badge-title"><span class="badge-icon"><i data-lucide="wrench"></i></span> Status</div>
-                <p><strong>Solos corrigíveis</strong></p>
-              </div>
-            </div>
           </div>
 
           <div class="soil-visual">
             <img src="solo_honduras.png" alt="Perfil de solo Honduras">
+          </div>
+
+          <div class="soil-badges">
+            <div class="badge-card">
+              <div class="badge-title"><span class="badge-icon"><i data-lucide="test-tube"></i></span> pH</div>
+              <p><strong>5,5–7,5</strong></p>
+            </div>
+            <div class="badge-card">
+              <div class="badge-title"><span class="badge-icon"><i data-lucide="grid-2x2"></i></span> Textura</div>
+              <p><strong>Franco a franco-argiloso</strong></p>
+            </div>
+            <div class="badge-card">
+              <div class="badge-title"><span class="badge-icon"><i data-lucide="wrench"></i></span> Status</div>
+              <p><strong>Solos corrigíveis</strong></p>
+            </div>
           </div>
         </div>
       </div>
