@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Condições Edafoclimáticas de Honduras para Soja</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg: #F9F9F9;
+      --green-dark: #2D5A27;
+      --green: #4CAF50;
+      --green-soft: #E9F4E5;
+      --blue: #2C3E50;
+      --text: #24313d;
+      --muted: #64707b;
+      --line: rgba(44, 62, 80, 0.10);
+      --card: rgba(255,255,255,0.88);
+      --shadow: 0 18px 50px rgba(34, 58, 43, 0.10);
+      --shadow-soft: 0 10px 28px rgba(44,62,80,0.08);
+      --radius: 24px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      background-image:
+        linear-gradient(rgba(44,62,80,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(44,62,80,0.035) 1px, transparent 1px),
+        radial-gradient(circle at 10% 20%, rgba(76,175,80,0.07), transparent 22%),
+        radial-gradient(circle at 90% 10%, rgba(45,90,39,0.08), transparent 25%),
+        radial-gradient(circle at 70% 70%, rgba(76,175,80,0.05), transparent 28%);
+      background-size: 28px 28px, 28px 28px, auto, auto, auto;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.18;
+      background-repeat: no-repeat;
+      background-size: contain;
+      filter: blur(0.5px);
+    }
+
+    body::before {
+      top: -24px;
+      left: -32px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><g fill='none' stroke='%234CAF50' stroke-width='2.3' stroke-linecap='round'><path d='M98 12 C69 38,58 77,70 111 C80 139,76 165,52 188'/><path d='M98 12 C126 41,138 78,126 112 C116 139,121 164,146 186'/><path d='M98 44 C75 61,68 85,76 111'/><path d='M99 46 C121 62,129 88,121 114'/><path d='M82 82 C94 89,104 97,111 109'/><path d='M118 82 C106 89,96 97,89 109'/></g></svg>");
+    }
+
+    body::after {
+      bottom: -40px;
+      right: -30px;
+      transform: rotate(180deg);
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><g fill='none' stroke='%232D5A27' stroke-width='2.1' stroke-linecap='round'><path d='M98 12 C69 38,58 77,70 111 C80 139,76 165,52 188'/><path d='M98 12 C126 41,138 78,126 112 C116 139,121 164,146 186'/><path d='M98 44 C75 61,68 85,76 111'/><path d='M99 46 C121 62,129 88,121 114'/><path d='M82 82 C94 89,104 97,111 109'/><path d='M118 82 C106 89,96 97,89 109'/></g></svg>");
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: rgba(44,62,80,0.08);
+      z-index: 1000;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green-dark), var(--green));
+      box-shadow: 0 0 16px rgba(76,175,80,0.35);
+    }
+
+    .nav-dots {
+      position: fixed;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(44,62,80,0.20);
+      border: 1px solid rgba(44,62,80,0.15);
+      transition: 0.25s ease;
+    }
+
+    .dot.active {
+      transform: scale(1.5);
+      background: var(--green);
+      box-shadow: 0 0 0 6px rgba(76,175,80,0.14);
+    }
+
+    .slide {
+      min-height: 100vh;
+      padding: clamp(56px, 7vw, 76px) clamp(16px, 3vw, 32px) clamp(28px, 4vw, 40px);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .slide-inner {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      gap: 26px;
+      align-items: start;
+      grid-template-columns: minmax(0, 1.06fr) minmax(320px, 0.94fr);
+    }
+
+    .slide.full .slide-inner,
+    .slide.hero .slide-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: clamp(20px, 2vw, 30px);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green-dark), var(--green), transparent);
+      opacity: 0.85;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(76,175,80,0.10);
+      color: var(--green-dark);
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .headline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 18px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(45,90,39,0.10), rgba(76,175,80,0.08));
+      color: var(--blue);
+      font-weight: 800;
+      font-size: 0.98rem;
+      line-height: 1.5;
+      border: 1px solid rgba(76,175,80,0.10);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .icon-wrap,
+    .badge-icon,
+    .data-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.85);
+      color: var(--green-dark);
+    }
+
+    h1, h2, h3, p, li { margin-top: 0; }
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: var(--blue);
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: clamp(1.9rem, 4.6vw, 3.2rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      color: var(--blue);
+      margin-bottom: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    h3 {
+      color: var(--blue);
+      font-size: 1rem;
+      margin-bottom: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .lead {
+      font-size: 1.02rem;
+      line-height: 1.68;
+      color: var(--muted);
+      max-width: 860px;
+    }
+
+    ul {
+      padding-left: 1.15rem;
+      margin-bottom: 0;
+    }
+
+    li {
+      font-size: 0.99rem;
+      line-height: 1.62;
+      color: var(--text);
+      margin-bottom: 8px;
+      overflow-wrap: anywhere;
+    }
+
+    strong { color: var(--green-dark); }
+
+    .hero-wrap {
+      min-height: calc(100vh - 120px);
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-panel {
+      text-align: center;
+      padding: clamp(22px, 3vw, 42px);
+    }
+
+    .hero-subtitle {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.02rem;
+      line-height: 1.72;
+      color: var(--muted);
+    }
+
+    .hero-grid,
+    .data-grid,
+    .kpi-row,
+    .stats-grid,
+    .option-row,
+    .tag-row,
+    .legend,
+    .soil-badges,
+    .map-legend {
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 24px; }
+    .kpi-row { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+    .data-grid { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+    .stats-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .option-row { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 18px; }
+    .tag-row { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 18px; }
+    .legend { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 16px; }
+    .soil-badges { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-top: 18px; }
+    .map-legend { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 18px; }
+
+    .metric,
+    .mini-card,
+    .badge-card,
+    .data-card,
+    .map-stat,
+    .option-chip,
+    .tag,
+    .legend span {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .metric,
+    .mini-card,
+    .badge-card,
+    .data-card,
+    .map-stat,
+    .option-chip {
+      padding: 18px 20px;
+      background: rgba(255,255,255,0.82);
+      border-radius: 20px;
+      border: 1px solid rgba(44,62,80,0.08);
+      box-shadow: 0 10px 24px rgba(44,62,80,0.06);
+    }
+
+    .metric b,
+    .map-stat b {
+      display: block;
+      font-size: 1.42rem;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+
+    .metric span,
+    .mini-card p,
+    .badge-card p,
+    .data-card p,
+    .map-stat span,
+    .option-chip {
+      color: var(--muted);
+      font-size: clamp(0.9rem, 1.2vw, 0.93rem);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .badge-title,
+    .data-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-weight: 800;
+      color: var(--blue);
+      min-width: 0;
+    }
+
+    .image-panel,
+    .map-wrap,
+    .soil-visual,
+    .topo-image-card {
+      position: relative;
+      padding: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(235,244,236,0.68));
+      border-radius: 24px;
+      border: 1px solid rgba(44,62,80,0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .image-panel img,
+    .map-wrap img,
+    .soil-visual img,
+    .topo-image-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 18px;
+      border: 1px solid rgba(44,62,80,0.08);
+      object-fit: cover;
+    }
+
+    .photoperiod-chart {
+      position: relative;
+      height: min(320px, 46vw);
+      min-height: 240px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(220,239,216,0.55));
+      overflow: hidden;
+      border: 1px solid rgba(44,62,80,0.08);
+    }
+
+    .grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(44,62,80,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(44,62,80,0.04) 1px, transparent 1px);
+      background-size: 100% 20%, calc(100%/12) 100%;
+    }
+
+    .month-row {
+      position: absolute;
+      bottom: 10px;
+      left: 18px;
+      right: 18px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 4px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .wave-wrap {
+      position: absolute;
+      inset: 24px 18px 40px;
+    }
+
+    .wave {
+      fill: none;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 900;
+      stroke-dashoffset: 900;
+      transition: stroke-dashoffset 1.8s ease;
+    }
+
+    .wave-hn { stroke: var(--green); }
+    .wave-br { stroke: var(--blue); opacity: 0.92; }
+
+    .legend span,
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.4;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(44,62,80,0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .legend i {
+      width: 26px;
+      height: 4px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .rain-chart {
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(234,245,231,0.65));
+      border: 1px solid rgba(44,62,80,0.08);
+      padding: 20px 16px 14px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .rain-grid {
+      height: 270px;
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0,1fr));
+      gap: 8px;
+      align-items: end;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      padding-top: 16px;
+    }
+
+    .rain-grid::before,
+    .rain-grid::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(44,62,80,0.08);
+    }
+
+    .rain-grid::before { top: 33%; }
+    .rain-grid::after { top: 66%; }
+
+    .month-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: end;
+      gap: 10px;
+      min-height: 100%;
+      min-width: 0;
+    }
+
+    .month-col .icon {
+      font-size: 1rem;
+      opacity: 0.85;
+      height: 20px;
+      display: grid;
+      place-items: center;
+    }
+
+    .month-bar-wrap {
+      width: 100%;
+      max-width: 48px;
+      height: 190px;
+      background: rgba(44,62,80,0.05);
+      border-radius: 16px 16px 8px 8px;
+      display: flex;
+      align-items: end;
+      overflow: hidden;
+    }
+
+    .month-bar {
+      width: 100%;
+      height: 0;
+      transition: height 1.2s cubic-bezier(.2,.8,.2,1);
+      border-radius: 16px 16px 8px 8px;
+      background: linear-gradient(180deg, #9FD6A0, var(--green-dark));
+    }
+
+    .month-col.dry .month-bar {
+      background: linear-gradient(180deg, #DDE6D0, #A9BA8C);
+    }
+
+    .month-label {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .month-mm {
+      font-size: 0.78rem;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .soil-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(260px, 0.82fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .soil-text {
+      min-width: 0;
+    }
+
+    .summary-note,
+    .cta-answer {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(44,62,80,0.08);
+      background: rgba(255,255,255,0.78);
+      box-shadow: var(--shadow-soft);
+      line-height: 1.65;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .cta-wrap {
+      text-align: center;
+      max-width: 940px;
+      margin: 0 auto;
+    }
+
+    .cta-btn {
+      margin-top: 20px;
+      border: 0;
+      cursor: pointer;
+      padding: 16px 28px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 1rem;
+      color: white;
+      background: linear-gradient(135deg, var(--green-dark), var(--green));
+      box-shadow: 0 18px 40px rgba(76,175,80,0.28);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 24px 50px rgba(76,175,80,0.32);
+    }
+
+    .cta-answer {
+      display: none;
+      text-align: left;
+    }
+
+    .fade-up,
+    .hero-fade {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1200px) {
+      .slide-inner,
+      .soil-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-dots {
+        display: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      h1 {
+        font-size: clamp(2.1rem, 8vw, 3.5rem);
+      }
+
+      h2 {
+        font-size: clamp(1.7rem, 6vw, 2.5rem);
+      }
+
+      .card {
+        padding: 22px;
+      }
+
+      .headline {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .slide {
+        padding: 64px 14px 24px;
+      }
+
+      .card {
+        padding: 18px;
+        border-radius: 18px;
+      }
+
+      .hero-panel {
+        padding: 18px;
+      }
+
+      .photoperiod-chart {
+        min-height: 220px;
+      }
+
+      .month-bar-wrap {
+        max-width: 30px;
+      }
+
+      .month-mm,
+      .month-label,
+      .month-row {
+        font-size: 0.66rem;
+      }
+
+      .headline {
+        font-size: 0.93rem;
+        padding: 12px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="nav-dots" id="navDots"></div>
+
+  <section class="slide hero" id="slide-1" data-title="Portada">
+    <div class="slide-inner">
+      <div class="hero-wrap">
+        <div class="card hero-panel hero-fade">
+          <div class="eyebrow">Condições edafoclimáticas · Honduras · Olancho</div>
+          <h1>Condições Edafoclimáticas de Honduras<br>para Soja</h1>
+          <p class="hero-subtitle">
+            Leitura técnica objetiva das condições de <strong>latitude</strong>, <strong>temperatura</strong>, <strong>regime de chuvas</strong>, <strong>solo</strong> e <strong>topografia</strong>, com foco em <strong>Olancho (~14°N)</strong>.
+          </p>
+
+          <div class="hero-grid">
+            <div class="metric"><b>13°–16°N</b><span>Faixa latitudinal de Honduras</span></div>
+            <div class="metric"><b>24–30 °C</b><span>Faixa térmica predominante</span></div>
+            <div class="metric"><b>1000–1400 mm/ano</b><span>Regime pluviométrico anual</span></div>
+            <div class="metric"><b>05–11</b><span>Meses com maior concentração de chuvas</span></div>
+          </div>
+
+          <div class="map-wrap">
+            <img src="mapa_honduras.png" alt="Mapa de Honduras com Olancho destacado">
+          </div>
+
+          <div class="map-legend">
+            <div class="map-stat"><b>Montanhas</b><span>Áreas com maior restrição operacional e mecanização mais limitada.</span></div>
+            <div class="map-stat"><b>Vales</b><span>Áreas mais favoráveis para cultivo e operação mecanizada.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-2" data-title="Localização">
+    <div class="slide-inner">
+      <div class="card fade-up">
+        <div class="eyebrow"><i data-lucide="map-pinned"></i> Slide 2 · Localização geográfica</div>
+        <h2>1. Localização e recorte técnico</h2>
+        
+      </div>
+
+      <div class="card fade-up">
+        <div class="kpi-row">
+          <div class="badge-card">
+            <div class="badge-title"><span class="badge-icon"><i data-lucide="globe"></i></span> Latitude</div>
+            <p><strong>13°–16° N</strong></p>
+          </div>
+          <div class="badge-card">
+            <div class="badge-title"><span class="badge-icon"><i data-lucide="map"></i></span> Região foco</div>
+            <p><strong>Olancho (~14°N)</strong></p>
+          </div>
+          <div class="badge-card">
+            <div class="badge-title"><span class="badge-icon"><i data-lucide="sun-dim"></i></span> Ambiente</div>
+            <p><strong>Tropical</strong></p>
+          </div>
+          <div class="badge-card">
+            <div class="badge-title"><span class="badge-icon"><i data-lucide="leaf"></i></span> Objetivo</div>
+            <p><strong>Base técnica para soja</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-3" data-title="Clima geral">
+    <div class="slide-inner">
+      <div class="card fade-up">
+        <div class="eyebrow"><i data-lucide="cloud-sun"></i> Slide 3 · Clima geral</div>
+        <div class="headline"><span class="icon-wrap"><i data-lucide="bar-chart-3"></i></span><span><strong>Dados climáticos centrais de Honduras</strong> para leitura inicial do ambiente.</span></div>
+        <h2>2. Clima geral: dados objetivos</h2>
+        <div class="data-grid">
+          <div class="data-card">
+            <div class="data-title"><span class="data-icon"><i data-lucide="thermometer"></i></span> Temperatura</div>
+            <p><strong>24–30 °C</strong><br>Faixa térmica predominante em ambiente tropical.</p>
+          </div>
+          <div class="data-card">
+            <div class="data-title"><span class="data-icon"><i data-lucide="droplets"></i></span> Umidade relativa</div>
+            <p><strong>70–85%</strong><br>Faixa elevada durante boa parte do período chuvoso.</p>
+          </div>
+          <div class="data-card">
+            <div class="data-title"><span class="data-icon"><i data-lucide="sun-medium"></i></span> Radiação</div>
+            <p><strong>18–22 MJ/m²/dia</strong><br>Alta disponibilidade de energia ao longo do ano.</p>
+          </div>
+          <div class="data-card">
+            <div class="data-title"><span class="data-icon"><i data-lucide="calendar-range"></i></span> Janela climática</div>
+            <p><strong>05–11</strong><br>Meses com maior concentração de chuvas.</p>
+          </div>
+        </div>
+        
+      </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-4" data-title="Fotoperíodo">
+    <div class="slide-inner">
+      <div class="card fade-up">
+        <div class="eyebrow"><i data-lucide="sunrise"></i> Slide 4 · Fotoperíodo</div>
+        <div class="headline"><span class="icon-wrap"><i data-lucide="clock-3"></i></span><span><strong>~14°N</strong> indica ambiente de <strong>dias relativamente curtos</strong> e menor oscilação anual.</span></div>
+        <h2>3. Fotoperíodo</h2>
+        <ul>
+          <li><strong>Efeito esperado:</strong> influência direta no florescimento.</li>
+          <li><strong>Risco agronômico:</strong> florescimento precoce em materiais sensíveis.</li>
+        </ul>
+      </div>
+
+      <div class="card fade-up">
+        <div class="photoperiod-chart">
+          <div class="grid-lines"></div>
+          <div class="wave-wrap">
+            <svg viewBox="0 0 1000 260" preserveAspectRatio="none" width="100%" height="100%">
+              <path class="wave wave-hn" id="waveHN" d="M0,124 C70,122 95,120 167,122 C242,124 260,126 333,124 C410,122 427,120 500,123 C574,126 590,128 667,124 C743,120 760,118 833,121 C905,124 940,126 1000,124"></path>
+              <path class="wave wave-br" id="waveBR" d="M0,165 C65,130 90,105 167,85 C242,64 262,58 333,77 C410,98 425,131 500,160 C576,188 594,198 667,184 C741,169 758,139 833,103 C905,67 935,55 1000,75"></path>
+            </svg>
+          </div>
+          <div class="month-row">
+            <span>Jan</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Set</span><span>Out</span><span>Nov</span><span>Dez</span>
+          </div>
+        </div>
+        <div class="legend">
+          <span><i style="background:var(--green)"></i>Honduras: menor oscilação anual</span>
+          <span><i style="background:var(--blue)"></i>Brasil Sul: maior amplitude anual</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-5" data-title="Temperatura">
+    <div class="slide-inner">
+      <div class="card fade-up">
+        <div class="eyebrow"><i data-lucide="thermometer-sun"></i> Slide 5 · Temperatura</div>
+        <h2>4. Temperatura de Honduras</h2>
+        
+      </div>
+
+      <div class="card fade-up">
+        <div class="data-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));">
+          <div class="data-card">
+            <div class="data-title"><span class="data-icon"><i data-lucide="thermometer"></i></span> Faixa</div>
+            <p><strong>24–30 °C</strong></p>
+          </div>
+          <div class="data-card">
+            <div class="data-title"><span class="data-icon"><i data-lucide="sun"></i></span> Radiação</div>
+            <p><strong>Alta</strong></p>
+          </div>
+          <div class="data-card">
+            <div class="data-title"><span class="data-icon"><i data-lucide="activity"></i></span> Variação anual</div>
+            <p><strong>Baixa</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-6" data-title="Chuvas">
+    <div class="slide-inner">
+      <div class="card fade-up">
+        <div class="eyebrow"><i data-lucide="cloud-rain-wind"></i> Slide 6 · Regime de chuvas</div>
+        <div class="headline"><span class="icon-wrap"><i data-lucide="calendar-days"></i></span><span><strong>Regime anual: 1000–1400 mm</strong> com estação chuvosa concentrada entre <strong>05–11</strong>.</span></div>
+        <h2>5. Regime de chuvas</h2>
+        <ul>
+          <li><strong>Distribuição:</strong> concentração no período maio–novembro.</li>
+          <li><strong>Período seco:</strong> dezembro–abril.</li>
+        </ul>
+      </div>
+
+      <div class="card fade-up" id="rainSection">
+        <div class="rain-chart">
+          <div class="rain-grid">
+            <div class="month-col dry"><div class="icon">☀️</div><div class="month-bar-wrap"><div class="month-bar" data-height="38%"></div></div><div class="month-mm">65</div><div class="month-label">Jan</div></div>
+            <div class="month-col dry"><div class="icon">☀️</div><div class="month-bar-wrap"><div class="month-bar" data-height="28%"></div></div><div class="month-mm">48</div><div class="month-label">Fev</div></div>
+            <div class="month-col dry"><div class="icon">☀️</div><div class="month-bar-wrap"><div class="month-bar" data-height="24%"></div></div><div class="month-mm">42</div><div class="month-label">Mar</div></div>
+            <div class="month-col dry"><div class="icon">⛅</div><div class="month-bar-wrap"><div class="month-bar" data-height="36%"></div></div><div class="month-mm">62</div><div class="month-label">Abr</div></div>
+            <div class="month-col"><div class="icon">🌧️</div><div class="month-bar-wrap"><div class="month-bar" data-height="72%"></div></div><div class="month-mm">126</div><div class="month-label">Mai</div></div>
+            <div class="month-col"><div class="icon">🌧️</div><div class="month-bar-wrap"><div class="month-bar" data-height="84%"></div></div><div class="month-mm">148</div><div class="month-label">Jun</div></div>
+            <div class="month-col"><div class="icon">🌧️</div><div class="month-bar-wrap"><div class="month-bar" data-height="86%"></div></div><div class="month-mm">152</div><div class="month-label">Jul</div></div>
+            <div class="month-col"><div class="icon">🌧️</div><div class="month-bar-wrap"><div class="month-bar" data-height="82%"></div></div><div class="month-mm">144</div><div class="month-label">Ago</div></div>
+            <div class="month-col"><div class="icon">🌧️</div><div class="month-bar-wrap"><div class="month-bar" data-height="80%"></div></div><div class="month-mm">140</div><div class="month-label">Set</div></div>
+            <div class="month-col"><div class="icon">🌧️</div><div class="month-bar-wrap"><div class="month-bar" data-height="78%"></div></div><div class="month-mm">136</div><div class="month-label">Out</div></div>
+            <div class="month-col"><div class="icon">🌧️</div><div class="month-bar-wrap"><div class="month-bar" data-height="68%"></div></div><div class="month-mm">118</div><div class="month-label">Nov</div></div>
+            <div class="month-col dry"><div class="icon">☀️</div><div class="month-bar-wrap"><div class="month-bar" data-height="32%"></div></div><div class="month-mm">54</div><div class="month-label">Dez</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-7" data-title="Solos">
+    <div class="slide-inner">
+      <div class="card fade-up">
+        <div class="eyebrow"><i data-lucide="shovel"></i> Slide 7 · Solos</div>
+        <div class="headline"><span class="icon-wrap"><i data-lucide="layers"></i></span><span><strong>Foco principal:</strong> pH, textura e status do solo.</span></div>
+        <div class="soil-layout">
+          <div class="soil-text">
+            <h2>6. Solos</h2>
+            <ul>
+              <li>Leitura funcional voltada a <strong>profundidade</strong>, <strong>estrutura</strong> e <strong>drenagem</strong>.</li>
+            </ul>
+
+            <div class="soil-badges">
+              <div class="badge-card">
+                <div class="badge-title"><span class="badge-icon"><i data-lucide="test-tube"></i></span> pH</div>
+                <p><strong>5,5–7,5</strong></p>
+              </div>
+              <div class="badge-card">
+                <div class="badge-title"><span class="badge-icon"><i data-lucide="grid-2x2"></i></span> Textura</div>
+                <p><strong>Franco a franco-argiloso</strong></p>
+              </div>
+              <div class="badge-card">
+                <div class="badge-title"><span class="badge-icon"><i data-lucide="wrench"></i></span> Status</div>
+                <p><strong>Solos corrigíveis</strong></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="soil-visual">
+            <img src="solo_honduras.png" alt="Perfil de solo Honduras">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-8" data-title="Topografia">
+    <div class="slide-inner">
+      <div class="card fade-up">
+        <div class="eyebrow"><i data-lucide="mountain"></i> Slide 8 · Topografia</div>
+        <div class="headline"><span class="icon-wrap"><i data-lucide="map"></i></span><span><strong>Predomínio de relevo irregular</strong> com cultivo favorecido em áreas de vale.</span></div>
+        <h2>7. Topografia</h2>
+        <ul>
+          <li><strong>Limitação principal:</strong> mecanização.</li>
+        </ul>
+      </div>
+
+      <div class="topo-image-card fade-up">
+        <img src="mapa_topografico_honduras.png" alt="Mapa topográfico de Honduras com Olancho destacado">
+      </div>
+    </div>
+  </section>
+
+  <section class="slide full" id="slide-9" data-title="Pergunta técnica">
+    <div class="slide-inner">
+      <div class="card fade-up cta-wrap">
+        <div class="eyebrow"><i data-lucide="help-circle"></i> Encerramento · Pergunta técnica</div>
+        <div class="headline"><span class="icon-wrap"><i data-lucide="message-square-question"></i></span><span><strong>Considerando os dados de Honduras</strong>, quais cultivares apresentam melhor ajuste inicial para Olancho?</span></div>
+        <h2>Pergunta técnica final</h2>
+        <p class="lead" style="margin: 0 auto; text-align:center; max-width:820px;">
+          Com base em <strong>~14°N</strong>, <strong>24–30 °C</strong>, <strong>1000–1400 mm/ano</strong>, solos <strong>franco a franco-argilosos</strong> e relevo com predominância irregular, quais materiais de soja devem ser priorizados para validação inicial em Honduras?
+        </p>
+        <div class="option-row">
+          <div class="option-chip"><strong>Latitude:</strong> ~14°N</div>
+          <div class="option-chip"><strong>Temperatura:</strong> 24–30 °C</div>
+          <div class="option-chip"><strong>Chuvas:</strong> 1000–1400 mm/ano</div>
+        </div>
+        <button class="cta-btn" id="ctaBtn">Ver enfoque recomendado</button>
+        <div class="cta-answer" id="ctaAnswer">
+          <strong>Enfoque recomendado:</strong> priorizar materiais com adaptação tropical, estabilidade fenológica em baixa latitude e arquitetura compatível com as condições reais de Olancho.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+
+      const sections = [...document.querySelectorAll('.slide')];
+      const dotsWrap = document.getElementById('navDots');
+      const progressBar = document.getElementById('progressBar');
+
+      if (dotsWrap) {
+        sections.forEach((section, index) => {
+          const a = document.createElement('a');
+          a.href = `#${section.id}`;
+          a.className = 'dot';
+          a.setAttribute('aria-label', section.dataset.title || `Slide ${index + 1}`);
+          dotsWrap.appendChild(a);
+        });
+      }
+
+      const dots = [...document.querySelectorAll('.dot')];
+      if (sections.length) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const index = sections.indexOf(entry.target);
+              dots.forEach(d => d.classList.remove('active'));
+              if (dots[index]) dots[index].classList.add('active');
+            }
+          });
+        }, { threshold: 0.55 });
+
+        sections.forEach(s => observer.observe(s));
+      }
+
+      const revealTargets = document.querySelectorAll('.fade-up, .hero-fade');
+      if (revealTargets.length) {
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+
+              if (entry.target.closest('#slide-4')) {
+                const waveHN = document.getElementById('waveHN');
+                const waveBR = document.getElementById('waveBR');
+                if (waveHN) waveHN.style.strokeDashoffset = '0';
+                if (waveBR) waveBR.style.strokeDashoffset = '0';
+              }
+
+              if (entry.target.closest('#slide-6')) {
+                document.querySelectorAll('#slide-6 .month-bar').forEach(bar => {
+                  bar.style.height = bar.dataset.height || '0';
+                });
+              }
+            }
+          });
+        }, { threshold: 0.18 });
+
+        revealTargets.forEach(el => revealObserver.observe(el));
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!progressBar) return;
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = progress + '%';
+      });
+
+      const ctaBtn = document.getElementById('ctaBtn');
+      const ctaAnswer = document.getElementById('ctaAnswer');
+      if (ctaBtn && ctaAnswer) {
+        ctaBtn.addEventListener('click', () => {
+          const open = ctaAnswer.style.display === 'block';
+          ctaAnswer.style.display = open ? 'none' : 'block';
+          ctaBtn.textContent = open ? 'Ver enfoque recomendado' : 'Ocultar enfoque recomendado';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
