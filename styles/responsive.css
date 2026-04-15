@@ -1,0 +1,73 @@
+@media (max-width: 1024px) {
+      .nav-dots {
+        display: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      h1 {
+        font-size: clamp(2.1rem, 8vw, 3.5rem);
+      }
+
+      h2 {
+        font-size: clamp(1.7rem, 6vw, 2.5rem);
+      }
+
+      .card {
+        padding: 22px;
+      }
+
+      .headline {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .slide {
+        padding: 64px 14px 24px;
+      }
+
+      .card {
+        padding: 18px;
+        border-radius: 18px;
+      }
+
+      .hero-panel {
+        padding: 18px;
+      }
+
+      .photoperiod-chart {
+        min-height: 220px;
+      }
+
+      .month-bar-wrap {
+        max-width: 30px;
+      }
+
+      .month-mm,
+      .month-label,
+      .month-row {
+        font-size: 0.66rem;
+      }
+
+      .headline {
+        font-size: 0.93rem;
+        padding: 12px 14px;
+      }
+
+      .soil-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .soil-text,
+      .soil-visual,
+      .soil-badges {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .soil-badges {
+        grid-template-columns: 1fr;
+      }
+    }
