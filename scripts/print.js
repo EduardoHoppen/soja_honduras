@@ -1,17 +1,20 @@
 import { forceRevealAllVisuals } from './reveal.js';
+import { t } from './i18n.js';
 
 function waitForImages() {
   const images = Array.from(document.images || []);
 
-  return Promise.all(images.map((image) => {
-    if (image.complete) return Promise.resolve();
+  return Promise.all(
+    images.map((image) => {
+      if (image.complete) return Promise.resolve();
 
-    return new Promise((resolve) => {
-      const done = () => resolve();
-      image.addEventListener('load', done, { once: true });
-      image.addEventListener('error', done, { once: true });
-    });
-  }));
+      return new Promise((resolve) => {
+        const done = () => resolve();
+        image.addEventListener('load', done, { once: true });
+        image.addEventListener('error', done, { once: true });
+      });
+    })
+  );
 }
 
 function showAllForPrint() {
@@ -29,11 +32,17 @@ export function initPrint() {
   const restoreAfterPrint = () => {
     document.body.classList.remove('exporting-pdf');
     printBtn.disabled = false;
-    printBtn.textContent = 'Baixar PDF';
+    printBtn.textContent = t('ui.downloadPdf');
     printBtn.style.visibility = 'visible';
   };
 
   window.addEventListener('afterprint', restoreAfterPrint);
+
+  window.addEventListener('languagechange', () => {
+    if (!printBtn.disabled) {
+      printBtn.textContent = t('ui.downloadPdf');
+    }
+  });
 
   printBtn.addEventListener('click', async () => {
     printBtn.disabled = true;
